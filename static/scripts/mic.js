@@ -9,7 +9,7 @@ const detectPitch = Pitchfinder.YIN();
 
 var stream = ss.createStream();
 
-const fps = 24
+const fps = 60
 var startTime = new Date()
 
 const average = arr => arr.reduce((sume, el) => sume + el, 0) / arr.length;
@@ -80,8 +80,7 @@ $(document).ready( () =>{
       micStream.stop();
       alert("owie!! X(");
       console.log("sending data chan to backend :3");
-      socket.emit("getAudio",waveData);
-      waveData = [];
+      socket.emit("stop");
     })
 
 
