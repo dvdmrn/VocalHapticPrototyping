@@ -128,11 +128,8 @@ function scalePitchVals(pitch_array){
       scaledPitch.push(scaled);
     }
   }
-  console.log("prev pitch: ")
-  console.log(pitch_array)
-  console.log("scaled pitch: ")
-  console.dir(scaledPitch, {'maxArrayLength': null});
-  // console.log(scaledPitch)
+  
+  // console.dir(scaledPitch, {'maxArrayLength': null});
   return scaledPitch;
 }
 
@@ -154,13 +151,21 @@ function makeVibration(){
   let keyVal_spacing_ms = (recTime/n_amps) // ms apart between key values
   let keyVal_spacing_samples = Math.floor((keyVal_spacing_ms / 1000)*sampleRate);
 
+  let noise = 1;
   // console.log("should be writing this many amp terms: ",n_amps," width: ",keyVal_spacing_samples);
   console.log("length:",recTime)
   // construct sine --
   k = 0;
   for (var i = 0; i < wf_length; i++) {
 
-      waveform[i] = Math.sin(pitchModifer[k] * frequency * Math.PI * 2 * (i / sampleRate))*(amp_vals[k]*10);
+      if(sibilant_vals[k]==1){
+        noise = Math.random()*3;
+      }
+      else{
+        noise = 1;
+      }
+
+      waveform[i] = Math.sin(pitchModifer[k] * frequency * Math.PI * 2 * (i / sampleRate))*(amp_vals[k]*10)*noise;
       if ((i%keyVal_spacing_samples) == 0){
         k++
         // console.log("wrote amp term ",k," @ sample: ",i)
@@ -216,7 +221,7 @@ io.on('connection', (socket) => {
   		spec = ft(streamVals)
   	}
   	let amp = rms(streamVals);
-    sibilantVals.push(detectSibilant(spec))
+    sibilant_vals.push(detectSibilant(spec))
   	io.emit("spectrum",spec);
   	var pitch = detectPitch(streamVals); // null if pitch cannot be i
   	// console.log(pitch);
