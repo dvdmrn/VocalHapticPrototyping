@@ -220,6 +220,7 @@ io.on('connection', (socket) => {
   		// new frame uwu
   		spec = ft(streamVals)
   	}
+    // console.log("len: ",streamVals.length);
   	let amp = rms(streamVals);
     sibilant_vals.push(detectSibilant(spec))
   	io.emit("spectrum",spec);

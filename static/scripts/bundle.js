@@ -6150,7 +6150,7 @@ $(document).ready( () =>{
     startTime = new Date();
     socket.emit("clickyclicky");
 
-    alert("button got clicky clicky :3")
+    // alert("button got clicky clicky :3")
     // note: for iOS Safari, the constructor must be called in response to a tap, or else the AudioContext will remain
     // suspended and will not provide any audio data.
     var micStream = new MicrophoneStream({
@@ -6206,7 +6206,7 @@ $(document).ready( () =>{
     // Stop when ready
     $("#stop").click(() => {
       micStream.stop();
-      alert("owie!! X(");
+      // alert("owie!! X(");
       console.log("sending data chan to backend :3");
       socket.emit("stop");
     })
